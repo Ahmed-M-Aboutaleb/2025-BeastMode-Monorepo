@@ -2,192 +2,157 @@
 
 ## 1. Detailed Use-Cases Description
 
-| Id             | UC-01                                                |
-| -------------- | ---------------------------------------------------- |
-| Use Case Name  | Register/Login                                       |
-| Goal           | Allow users to create an account and log in securely |
-| Actor          | Standard User                                        |
-| Pre-condition  | User is not logged in                                |
-| Post-condition | User is logged in; session is active                 |
-| Main Scenario  | 1. User navigates to the registration/login page.    |
+### UC-01: Register/Login
 
-2. User enters valid credentials.
-3. System validates the input.
-4. For registration, a verification email is sent.
-5. For login, credentials are authenticated.
-6. User is redirected to the dashboard. |
-   | Alternative Scenario | - If credentials are invalid, an error message is displayed.
+| **Id**                   | **UC-01**                                                                                                                                                                                                                                                                           |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Use Case Name**        | Register/Login                                                                                                                                                                                                                                                                      |
+| **Goal**                 | Allow users to create an account and log in securely                                                                                                                                                                                                                                |
+| **Actor**                | Standard User                                                                                                                                                                                                                                                                       |
+| **Pre-condition**        | User is not logged in                                                                                                                                                                                                                                                               |
+| **Post-condition**       | User is logged in; session is active                                                                                                                                                                                                                                                |
+| **Main Scenario**        | 1. User navigates to the registration/login page. <br> 2. User enters valid credentials. <br> 3. System validates the input. <br> 4. For registration, a verification email is sent. <br> 5. For login, credentials are authenticated. <br> 6. User is redirected to the dashboard. |
+| **Alternative Scenario** | - If credentials are invalid, an error message is displayed. <br> - If an email is already registered, the system prompts the user to recover their password.                                                                                                                       |
 
-- If an email is already registered, the system prompts the user to recover their password. |
+---
 
-| Id             | UC-02                                                  |
-| -------------- | ------------------------------------------------------ |
-| Use Case Name  | Manage Profile                                         |
-| Goal           | Enable users to update profile details and preferences |
-| Actor          | Standard User                                          |
-| Pre-condition  | User is logged in                                      |
-| Post-condition | Profile details are updated and saved                  |
-| Main Scenario  | 1. User accesses the profile management section.       |
+### UC-02: Manage Profile
 
-2. User edits personal information, fitness goals, and privacy settings.
-3. User submits changes.
-4. System validates and saves the updates.
-5. A confirmation message is shown. |
-   | Alternative Scenario | - If the entered data is invalid, the system shows an error message.
+| **Id**                   | **UC-02**                                                                                                                                                                                                                                             |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Use Case Name**        | Manage Profile                                                                                                                                                                                                                                        |
+| **Goal**                 | Enable users to update profile details and preferences                                                                                                                                                                                                |
+| **Actor**                | Standard User                                                                                                                                                                                                                                         |
+| **Pre-condition**        | User is logged in                                                                                                                                                                                                                                     |
+| **Post-condition**       | Profile details are updated and saved                                                                                                                                                                                                                 |
+| **Main Scenario**        | 1. User accesses the profile management section. <br> 2. User edits personal information, fitness goals, and privacy settings. <br> 3. User submits changes. <br> 4. System validates and saves the updates. <br> 5. A confirmation message is shown. |
+| **Alternative Scenario** | - If the entered data is invalid, the system shows an error message. <br> - If the session expires during updates, the system prompts the user to log in again.                                                                                       |
 
-- If the session expires during updates, the system prompts the user to log in again. |
+---
 
-| Id             | UC-03                                      |
-| -------------- | ------------------------------------------ |
-| Use Case Name  | Log Workout Session                        |
-| Goal           | Record the details of a workout session    |
-| Actor          | Standard User                              |
-| Pre-condition  | User is logged in                          |
-| Post-condition | Workout session is recorded                |
-| Main Scenario  | 1. User clicks the "Start Workout" button. |
+### UC-03: Log Workout Session
 
-2. System initiates a new workout session with a timestamp.
-3. User enters details (sets, reps, weights, optional notes).
-4. User saves the workout.
-5. System validates and logs the session. |
-   | Alternative Scenario | - If required fields are missing, the system displays an error message.
+| **Id**                   | **UC-03**                                                                                                                                                                                                                                                     |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Use Case Name**        | Log Workout Session                                                                                                                                                                                                                                           |
+| **Goal**                 | Record the details of a workout session                                                                                                                                                                                                                       |
+| **Actor**                | Standard User                                                                                                                                                                                                                                                 |
+| **Pre-condition**        | User is logged in                                                                                                                                                                                                                                             |
+| **Post-condition**       | Workout session is recorded                                                                                                                                                                                                                                   |
+| **Main Scenario**        | 1. User clicks the "Start Workout" button. <br> 2. System initiates a new workout session with a timestamp. <br> 3. User enters details (sets, reps, weights, optional notes). <br> 4. User saves the workout. <br> 5. System validates and logs the session. |
+| **Alternative Scenario** | - If required fields are missing, the system displays an error message. <br> - If a network error occurs during saving, the system prompts the user to retry the submission.                                                                                  |
 
-- If a network error occurs during saving, the system prompts the user to retry the submission. |
+---
 
-| Id             | UC-04                                                |
-| -------------- | ---------------------------------------------------- |
-| Use Case Name  | View Workout History                                 |
-| Goal           | Display past workout sessions in chronological order |
-| Actor          | Standard User                                        |
-| Pre-condition  | User is logged in                                    |
-| Post-condition | Workout history is displayed                         |
-| Main Scenario  | 1. User navigates to the workout history section.    |
+### UC-04: View Workout History
 
-2. System retrieves logged sessions.
-3. Sessions are displayed in chronological order.
-4. User can apply filters to view data by specific time periods. |
-   | Alternative Scenario | - If no workouts exist, the system displays a message indicating an empty history.
+| **Id**                   | **UC-04**                                                                                                                                                                                                                |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Use Case Name**        | View Workout History                                                                                                                                                                                                     |
+| **Goal**                 | Display past workout sessions in chronological order                                                                                                                                                                     |
+| **Actor**                | Standard User                                                                                                                                                                                                            |
+| **Pre-condition**        | User is logged in                                                                                                                                                                                                        |
+| **Post-condition**       | Workout history is displayed                                                                                                                                                                                             |
+| **Main Scenario**        | 1. User navigates to the workout history section. <br> 2. System retrieves logged sessions. <br> 3. Sessions are displayed in chronological order. <br> 4. User can apply filters to view data by specific time periods. |
+| **Alternative Scenario** | - If no workouts exist, the system displays a message indicating an empty history. <br> - If filters are applied incorrectly, the system reverts to the default view and notifies the user.                              |
 
-- If filters are applied incorrectly, the system reverts to the default view and notifies the user. |
+---
 
-| Id             | UC-05                                           |
-| -------------- | ----------------------------------------------- |
-| Use Case Name  | Duplicate Workout                               |
-| Goal           | Quickly replicate a previous workout session    |
-| Actor          | Standard User                                   |
-| Pre-condition  | User is logged in; previous workout exists      |
-| Post-condition | A new workout session is created as a duplicate |
-| Main Scenario  | 1. User selects an existing workout session.    |
+### UC-05: Duplicate Workout
 
-2. User clicks "Duplicate Workout".
-3. System copies the workout details into a new session.
-4. User reviews and confirms the duplicated session.
-5. New session is saved. |
-   | Alternative Scenario | - If the duplication fails due to data inconsistency, the system notifies the user and logs the error. |
+| **Id**                   | **UC-05**                                                                                                                                                                                                                                   |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Use Case Name**        | Duplicate Workout                                                                                                                                                                                                                           |
+| **Goal**                 | Quickly replicate a previous workout session                                                                                                                                                                                                |
+| **Actor**                | Standard User                                                                                                                                                                                                                               |
+| **Pre-condition**        | User is logged in; previous workout exists                                                                                                                                                                                                  |
+| **Post-condition**       | A new workout session is created as a duplicate                                                                                                                                                                                             |
+| **Main Scenario**        | 1. User selects an existing workout session. <br> 2. User clicks "Duplicate Workout". <br> 3. System copies the workout details into a new session. <br> 4. User reviews and confirms the duplicated session. <br> 5. New session is saved. |
+| **Alternative Scenario** | - If the duplication fails due to data inconsistency, the system notifies the user and logs the error.                                                                                                                                      |
 
-| Id             | UC-06                                                         |
-| -------------- | ------------------------------------------------------------- |
-| Use Case Name  | Share Workout                                                 |
-| Goal           | Share a workout session with the community or on social media |
-| Actor          | Standard User                                                 |
-| Pre-condition  | User is logged in; workout is marked as shareable             |
-| Post-condition | Workout is shared on the community feed or social media       |
-| Main Scenario  | 1. User selects a workout session.                            |
+---
 
-2. User clicks "Share Workout".
-3. System verifies the workout's privacy settings.
-4. Workout is posted on the community feed or shared on social media.
-5. A confirmation is displayed. |
-   | Alternative Scenario | - If privacy settings prevent sharing, the system displays an appropriate message.
+### UC-06: Share Workout
 
-- If a network issue occurs, the system prompts the user to retry sharing later. |
+| **Id**                   | **UC-06**                                                                                                                                                                                                                                       |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Use Case Name**        | Share Workout                                                                                                                                                                                                                                   |
+| **Goal**                 | Share a workout session with the community or on social media                                                                                                                                                                                   |
+| **Actor**                | Standard User                                                                                                                                                                                                                                   |
+| **Pre-condition**        | User is logged in; workout is marked as shareable                                                                                                                                                                                               |
+| **Post-condition**       | Workout is shared on the community feed or social media                                                                                                                                                                                         |
+| **Main Scenario**        | 1. User selects a workout session. <br> 2. User clicks "Share Workout". <br> 3. System verifies the workout's privacy settings. <br> 4. Workout is posted on the community feed or shared on social media. <br> 5. A confirmation is displayed. |
+| **Alternative Scenario** | - If privacy settings prevent sharing, the system displays an appropriate message. <br> - If a network issue occurs, the system prompts the user to retry sharing later.                                                                        |
 
-| Id             | UC-07                                                    |
-| -------------- | -------------------------------------------------------- |
-| Use Case Name  | View Progress                                            |
-| Goal           | Show visual progress analytics and performance summaries |
-| Actor          | Standard User                                            |
-| Pre-condition  | User is logged in with workout data                      |
-| Post-condition | Progress analytics and charts are displayed              |
-| Main Scenario  | 1. User selects "View Progress" from the dashboard.      |
+---
 
-2. System retrieves relevant workout data.
-3. Graphs and summary statistics are generated.
-4. Visual progress charts are displayed for the user. |
-   | Alternative Scenario | - If no workout data is available, the system shows a "No progress data available" message.
+### UC-07: View Progress
 
-- If there is an error in generating graphs, the system displays fallback statistics. |
+| **Id**                   | **UC-07**                                                                                                                                                                                                           |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Use Case Name**        | View Progress                                                                                                                                                                                                       |
+| **Goal**                 | Show visual progress analytics and performance summaries                                                                                                                                                            |
+| **Actor**                | Standard User                                                                                                                                                                                                       |
+| **Pre-condition**        | User is logged in with workout data                                                                                                                                                                                 |
+| **Post-condition**       | Progress analytics and charts are displayed                                                                                                                                                                         |
+| **Main Scenario**        | 1. User selects "View Progress" from the dashboard. <br> 2. System retrieves relevant workout data. <br> 3. Graphs and summary statistics are generated. <br> 4. Visual progress charts are displayed for the user. |
+| **Alternative Scenario** | - If no workout data is available, the system shows a "No progress data available" message. <br> - If there is an error in generating graphs, the system displays fallback statistics.                              |
 
-| Id             | UC-08                                                         |
-| -------------- | ------------------------------------------------------------- |
-| Use Case Name  | Create/Edit Exercise                                          |
-| Goal           | Allow users to add or modify exercise details in the database |
-| Actor          | Standard User                                                 |
-| Pre-condition  | User is logged in                                             |
-| Post-condition | New or updated exercise details are saved                     |
-| Main Scenario  | 1. User navigates to the exercise management section.         |
+---
 
-2. User selects "Create Exercise" or "Edit Exercise".
-3. User enters or updates exercise details (name, muscle group, equipment).
-4. System validates and saves the exercise.
-5. A confirmation is shown. |
-   | Alternative Scenario | - If mandatory fields are missing, the system displays an error message.
+### UC-08: Create/Edit Exercise
 
-- If another user is editing the same record, the system locks the record and notifies the user of the conflict. |
+| **Id**                   | **UC-08**                                                                                                                                                                                                                                                                           |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Use Case Name**        | Create/Edit Exercise                                                                                                                                                                                                                                                                |
+| **Goal**                 | Allow users to add or modify exercise details in the database                                                                                                                                                                                                                       |
+| **Actor**                | Standard User                                                                                                                                                                                                                                                                       |
+| **Pre-condition**        | User is logged in                                                                                                                                                                                                                                                                   |
+| **Post-condition**       | New or updated exercise details are saved                                                                                                                                                                                                                                           |
+| **Main Scenario**        | 1. User navigates to the exercise management section. <br> 2. User selects "Create Exercise" or "Edit Exercise". <br> 3. User enters or updates exercise details (name, muscle group, equipment). <br> 4. System validates and saves the exercise. <br> 5. A confirmation is shown. |
+| **Alternative Scenario** | - If mandatory fields are missing, the system displays an error message. <br> - If another user is editing the same record, the system locks the record and notifies the user of the conflict.                                                                                      |
 
-| Id             | UC-09                                                            |
-| -------------- | ---------------------------------------------------------------- |
-| Use Case Name  | Search and Filter Exercises                                      |
-| Goal           | Allow users to search for and filter exercises in the database   |
-| Actor          | Standard User                                                    |
-| Pre-condition  | User is logged in and in the Exercise Management section         |
-| Post-condition | A list of exercises matching the search/filter criteria is shown |
-| Main Scenario  | 1. User navigates to the Exercise Management section.            |
+---
 
-2. User enters keywords and/or selects filter criteria (e.g., muscle group, equipment).
-3. System processes the criteria and retrieves a filtered list of exercises.
-4. Filtered results are displayed for the user to review.
-5. User can click an exercise for more details. |
-   | Alternative Scenario | - If no exercises match the criteria, the system displays a “No results found” message.
+### UC-09: Search and Filter Exercises
 
-- If the criteria are invalid, the system offers suggestions or defaults to showing all available exercises. |
+| **Id**                   | **UC-09**                                                                                                                                                                                                                                                                                                                                                |
+| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Use Case Name**        | Search and Filter Exercises                                                                                                                                                                                                                                                                                                                              |
+| **Goal**                 | Allow users to search for and filter exercises in the database                                                                                                                                                                                                                                                                                           |
+| **Actor**                | Standard User                                                                                                                                                                                                                                                                                                                                            |
+| **Pre-condition**        | User is logged in and in the Exercise Management section                                                                                                                                                                                                                                                                                                 |
+| **Post-condition**       | A list of exercises matching the search/filter criteria is shown                                                                                                                                                                                                                                                                                         |
+| **Main Scenario**        | 1. User navigates to the Exercise Management section. <br> 2. User enters keywords and/or selects filter criteria (e.g., muscle group, equipment). <br> 3. System processes the criteria and retrieves a filtered list of exercises. <br> 4. Filtered results are displayed for the user to review. <br> 5. User can click an exercise for more details. |
+| **Alternative Scenario** | - If no exercises match the criteria, the system displays a “No results found” message. <br> - If the criteria are invalid, the system offers suggestions or defaults to showing all available exercises.                                                                                                                                                |
 
-| Id             | UC-10                                                                                                 |
-| -------------- | ----------------------------------------------------------------------------------------------------- |
-| Use Case Name  | Manage Workout Routines                                                                               |
-| Goal           | Enable users to create, view, edit, and delete workout routines for quick access to workout sessions. |
-| Actor          | Standard User                                                                                         |
-| Pre-condition  | User is logged in and has access to the Routine Management section.                                   |
-| Post-condition | Routine is created, updated, or deleted and becomes available for quick workout initiation.           |
-| Main Scenario  | 1. User navigates to the Routine Management section.                                                  |
+---
 
-2. User clicks on "Create Routine".
-3. The system displays a form with fields (e.g., routine name, list of exercises, exercise order, and optional durations or notes).
-4. User fills in the required details and submits the form.
-5. The system validates the inputs and saves the routine.
-6. A confirmation message is displayed, and the new routine appears in the user's routine list.
-7. Later, the user selects the routine to start a workout session with pre-filled exercise details. |
-   | Alternative Scenario | - Missing Required Fields: If the user omits mandatory details (e.g., routine name or exercises), the system displays error messages and prevents form submission.
+### UC-10: Manage Workout Routines
 
-- Duplicate Routine: If a routine with the same name already exists, the system warns the user and suggests editing the existing routine or choosing a new name.
-- Network Issues: If a network error occurs during submission, the system retains the data locally and prompts the user to retry saving once connectivity is restored. |
+| **Id**                   | **UC-10**                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Use Case Name**        | Manage Workout Routines                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| **Goal**                 | Enable users to create, view, edit, and delete workout routines for quick access to workout sessions                                                                                                                                                                                                                                                                                                                                                               |
+| **Actor**                | Standard User                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| **Pre-condition**        | User is logged in and has access to the Routine Management section                                                                                                                                                                                                                                                                                                                                                                                                 |
+| **Post-condition**       | Routine is created, updated, or deleted and becomes available for quick workout initiation                                                                                                                                                                                                                                                                                                                                                                         |
+| **Main Scenario**        | 1. User navigates to the Routine Management section. <br> 2. User clicks on "Create Routine" and the system displays a form with fields (e.g., routine name, list of exercises, exercise order, optional durations or notes). <br> 3. User fills in the required details and submits the form. <br> 4. The system validates the inputs and saves the routine. <br> 5. A confirmation message is displayed, and the new routine appears in the user's routine list. |
+| **Alternative Scenario** | - If required fields are missing, an error message is displayed. <br> - If a routine with the same name already exists, the system warns the user and suggests editing the existing routine or choosing a new name. <br> - If a network error occurs during submission, the system retains the data locally and prompts the user to retry saving once connectivity is restored.                                                                                    |
 
-| Id             | UC-11                                                                       |
-| -------------- | --------------------------------------------------------------------------- |
-| Use Case Name  | Manage User Accounts                                                        |
-| Goal           | Manage and control user accounts to maintain system security and compliance |
-| Actor          | Administrator                                                               |
-| Pre-condition  | Administrator is logged in                                                  |
-| Post-condition | User accounts are updated accordingly                                       |
-| Main Scenario  | 1. Administrator navigates to the user management section.                  |
+---
 
-2. Administrator searches for a specific user.
-3. Administrator views and edits user details.
-4. Administrator updates the user status or account settings.
-5. Changes are saved and confirmed. |
-   | Alternative Scenario | - If invalid user data is entered, the system displays an error message.
+### UC-11: Manage User Accounts
 
-- If the update fails, the system logs the error and notifies the administrator. |
+| **Id**                   | **UC-11**                                                                                                                                                                                                                                                                      |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Use Case Name**        | Manage User Accounts                                                                                                                                                                                                                                                           |
+| **Goal**                 | Manage and control user accounts to maintain system security and compliance                                                                                                                                                                                                    |
+| **Actor**                | Administrator                                                                                                                                                                                                                                                                  |
+| **Pre-condition**        | Administrator is logged in                                                                                                                                                                                                                                                     |
+| **Post-condition**       | User accounts are updated accordingly                                                                                                                                                                                                                                          |
+| **Main Scenario**        | 1. Administrator navigates to the user management section. <br> 2. Administrator searches for a specific user. <br> 3. Administrator views and edits user details. <br> 4. Administrator updates the user status or account settings. <br> 5. Changes are saved and confirmed. |
+| **Alternative Scenario** | - If invalid user data is entered, the system displays an error message. <br> - If the update fails, the system logs the error and notifies the administrator.                                                                                                                 |
 
 ## 2. User Stories and Acceptance Criteria
 
