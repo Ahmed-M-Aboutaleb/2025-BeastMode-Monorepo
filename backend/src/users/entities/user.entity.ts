@@ -11,7 +11,8 @@ export class User implements IUser {
   _id: Types.ObjectId;
   @Prop({ required: true, type: String, unique: true })
   email: string;
-  @Prop({ required: true, type: String })
+  // Hide password hash from queries by default
+  @Prop({ required: true, type: String, select: false })
   passwordHash: string;
   @Prop({ required: false, type: Boolean, default: true })
   isActive: boolean;
