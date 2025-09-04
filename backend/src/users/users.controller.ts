@@ -6,9 +6,9 @@ import {
   Patch,
   Param,
   Delete,
-  BadRequestException,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
+import { Types } from 'mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PaginationParams } from 'src/utils/decorators/pagination/paginationParams';
@@ -17,7 +17,7 @@ import { FilteringParams } from 'src/utils/decorators/filteringParms/filteringPa
 import type { IPagination } from 'src/utils/decorators/pagination/interfaces/pagination.interface';
 import type { Sorting } from 'src/utils/decorators/sortingParams/interfaces/sorting.interface';
 import type { Filtering } from 'src/utils/decorators/filteringParms/interfaces/filtering.interface';
-import { Types } from 'mongoose';
+import { IDParamDto } from './dto/IDParam.dto';
 
 @Controller('users')
 export class UsersController {
@@ -38,29 +38,24 @@ export class UsersController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-    if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid ID');
-    }
-    const objectId = new Types.ObjectId(id);
-    return await this.usersService.findOne({ _id: objectId });
+  async findOne(@Param() { id }: IDParamDto) {
+    const _id = new Types.ObjectId(id);
+    return await this.usersService.findOne({ _id });
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid ID');
-    }
-    const objectId = new Types.ObjectId(id);
-    return await this.usersService.update(objectId, updateUserDto);
+  async update(
+    @Param() { id }: IDParamDto,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
+    return await this.usersService.update(
+      new Types.ObjectId(id),
+      updateUserDto,
+    );
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string) {
-    if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid ID');
-    }
-    const objectId = new Types.ObjectId(id);
-    return await this.usersService.delete(objectId);
+  async remove(@Param() { id }: IDParamDto) {
+    return await this.usersService.delete(new Types.ObjectId(id));
   }
 }

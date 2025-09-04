@@ -1,7 +1,7 @@
 import {
   IsAlpha,
   IsBoolean,
-  IsDateString,
+  IsDate,
   IsEnum,
   IsOptional,
   IsString,
@@ -9,7 +9,7 @@ import {
 } from 'class-validator';
 import { Sex } from '../interfaces/IProfile';
 import type IBodyMeasurements from '../interfaces/IBodyMeasurements';
-import { BodyMeasurementsDto } from './BodyMeasurementsDto';
+import { BodyMeasurementsDto } from './body-measurements.dto';
 import { Type } from 'class-transformer';
 export class ProfileDto {
   @IsAlpha()
@@ -30,7 +30,7 @@ export class ProfileDto {
   isPublic?: boolean;
   @IsEnum(Sex)
   sex: Sex;
-  @IsDateString()
+  @IsDate()
   birthDate: Date;
 
   @IsOptional()

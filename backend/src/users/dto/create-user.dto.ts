@@ -4,9 +4,8 @@ import {
   IsStrongPassword,
   ValidateNested,
 } from 'class-validator';
-import type IProfile from '../interfaces/IProfile';
 import { Type } from 'class-transformer';
-import { ProfileDto } from './ProfileDto';
+import { ProfileDto } from './profile.dto';
 
 export class CreateUserDto {
   @IsEmail()
@@ -16,5 +15,5 @@ export class CreateUserDto {
   @IsNotEmpty()
   @ValidateNested()
   @Type(() => ProfileDto)
-  profile: IProfile;
+  profile: ProfileDto;
 }
