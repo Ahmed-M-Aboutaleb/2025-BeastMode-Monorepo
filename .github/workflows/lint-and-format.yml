@@ -1,0 +1,149 @@
+name: Lint & Format (backend)
+
+on:
+  push:
+    branches: ["**"]
+    paths:
+      - "backend/**"
+      - ".github/workflows/lint-and-format.yml"
+  pull_request:
+    branches: ["**"]
+    paths:
+      - "backend/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: "20"
+
+defaults:
+  run:
+    working-directory: backend
+
+jobs:
+  check:
+    if: ${{ github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: yarn
+          cache-dependency-path: backend/yarn.lock
+
+      - name: Enable Corepack (Yarn)
+        run: corepack enable
+
+      - name: Cache Yarn Berry artifacts
+        if: ${{ hashFiles('backend/.yarnrc.yml') != '' }}
+        uses: actions/cache@v4
+        with:
+          path: |
+            backend/.yarn/cache
+            backend/.yarn/unplugged
+            backend/.yarn/build-state.yml
+            backend/.pnp.cjs
+            backend/.pnp.loader.mjs
+          key: ${{ runner.os }}-yarn-berry-${{ hashFiles('backend/yarn.lock') }}-${{ hashFiles('backend/.yarnrc.yml') }}
+          restore-keys: ${{ runner.os }}-yarn-berry-
+
+      - name: Install deps (Yarn v1 or Berry)
+        run: |
+          if [ -f ".yarnrc.yml" ]; then
+            yarn install --immutable
+          else
+            yarn install --frozen-lockfile
+          fi
+
+      - name: ESLint (no fixes)
+        run: yarn lint:check
+
+      - name: Prettier (check)
+        run: yarn format:check
+
+  fix-and-format:
+    if: ${{ github.event_name == 'push'
+      || github.event_name == 'workflow_dispatch'
+      || (github.event_name == 'pull_request'
+      && github.event.pull_request.head.repo.full_name == github.repository) }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout correct ref
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref || github.ref }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: yarn
+          cache-dependency-path: backend/yarn.lock
+
+      - name: Enable Corepack (Yarn)
+        run: corepack enable
+
+      - name: Cache Yarn Berry artifacts
+        if: ${{ hashFiles('backend/.yarnrc.yml') != '' }}
+        uses: actions/cache@v4
+        with:
+          path: |
+            backend/.yarn/cache
+            backend/.yarn/unplugged
+            backend/.yarn/build-state.yml
+            backend/.pnp.cjs
+            backend/.pnp.loader.mjs
+          key: ${{ runner.os }}-yarn-berry-${{ hashFiles('backend/yarn.lock') }}-${{ hashFiles('backend/.yarnrc.yml') }}
+          restore-keys: ${{ runner.os }}-yarn-berry-
+
+      - name: Install deps (Yarn v1 or Berry)
+        run: |
+          if [ -f ".yarnrc.yml" ]; then
+            yarn install --immutable
+          else
+            yarn install --frozen-lockfile
+          fi
+
+      - name: ESLint (auto-fix)
+        run: yarn lint
+
+      - name: Prettier (write)
+        run: yarn format
+
+      - name: Commit changes (if any)
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore(ci): auto-format & lint fixes [skip ci]"
+          commit_user_name: github-actions[bot]
+          commit_user_email: github-actions[bot]@users.noreply.github.com
+          branch: ${{ github.head_ref || github.ref_name }}
+          file_pattern: |
+            backend/src/**/*.ts
+            backend/test/**/*.ts
+            backend/apps/**/*.ts
+            backend/libs/**/*.ts
+
+      - name: ESLint (verify)
+        run: yarn lint:check
+
+      - name: Prettier (verify)
+        run: yarn format:check
+
+      - name: Debug context
+        if: ${{ failure() || always() }}
+        run: |
+          echo "event_name=${{ github.event_name }}"
+          echo "actor=${{ github.actor }}"
+          echo "ref=${{ github.ref }}"
+          echo "ref_name=${{ github.ref_name }}"
+          echo "head_ref=${{ github.head_ref }}"
+          echo "base_ref=${{ github.base_ref }}"
+          echo "pr_head_repo=${{ github.event.pull_request.head.repo.full_name || 'n/a' }}"
