@@ -1,0 +1,92 @@
+name: Lint & Format (backend)
+
+on:
+  push:
+    paths:
+      - "backend/**"
+  pull_request:
+    paths:
+      - "backend/**"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: "20"
+
+# Run every shell step from backend/
+defaults:
+  run:
+    working-directory: backend
+
+jobs:
+  # --- PRs: check only (no commits) ---
+  check:
+    if: ${{ github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install deps
+        run: npm ci
+
+      # Use ESLint directly WITHOUT --fix (because your script has --fix)
+      - name: ESLint (no fixes)
+        run: npx eslint . --ext .ts --max-warnings=0
+
+      - name: Prettier (check)
+        run: npm run format:check
+
+  # --- Pushes: auto-fix + format and commit back ---
+  fix-and-format:
+    if: ${{ github.event_name == 'push' && github.actor != 'github-actions[bot]' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install deps
+        run: npm ci
+
+      # Your lint script already has --fix
+      - name: ESLint (auto-fix)
+        run: npm run lint
+
+      - name: Prettier (write)
+        run: npm run format
+
+      - name: Commit changes (if any)
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore(ci): auto-format & lint fixes [skip ci]"
+          commit_user_name: github-actions[bot]
+          commit_user_email: github-actions[bot]@users.noreply.github.com
+          file_pattern: |
+            backend/src/**/*.ts
+            backend/test/**/*.ts
+            backend/apps/**/*.ts
+            backend/libs/**/*.ts
+
+      # Verify clean tree after fixes
+      - name: ESLint (verify)
+        run: npx eslint . --ext .ts --max-warnings=0
+
+      - name: Prettier (verify)
+        run: npm run format:check
