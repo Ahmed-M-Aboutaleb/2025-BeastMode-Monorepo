@@ -24,7 +24,7 @@ export class AuthService {
       '+passwordHash',
     );
     if (!user) {
-      setTimeout(() => {}, 500);
+      await new Promise((resolve) => setTimeout(resolve, 500));
       throw new BadRequestException('Invalid credentials');
     }
     const isPasswordValid = await this.verifyPassword(
@@ -32,7 +32,7 @@ export class AuthService {
       user.passwordHash,
     );
     if (!isPasswordValid) {
-      setTimeout(() => {}, 500);
+      await new Promise((resolve) => setTimeout(resolve, 500));
       throw new BadRequestException('Invalid credentials');
     }
     const token = await this.createToken(user);
