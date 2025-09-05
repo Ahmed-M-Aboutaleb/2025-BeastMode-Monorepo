@@ -4,7 +4,6 @@ import { UsersService } from 'src/users/users.service';
 import { SignInDto } from './dto/sign-in.dto';
 import IUser from 'src/users/interfaces/IUser';
 import { SignUpDto } from './dto/sign-up.dto';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { TokenPayload } from './interfaces/token-payload.interface';
 import * as argon from 'argon2';
 import { User } from 'src/users/entities/user.entity';
@@ -23,10 +22,6 @@ export class AuthService {
       },
       '+passwordHash',
     );
-    if (!user) {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      throw new BadRequestException('Invalid credentials');
-    }
     const isPasswordValid = await this.verifyPassword(
       signInDto.password,
       user.passwordHash,
@@ -43,18 +38,12 @@ export class AuthService {
   }
 
   async signUp(signUpDto: SignUpDto): Promise<IAuthResponse> {
-    const user: User = await this.createUser(signUpDto);
+    const user: User = await this.usersService.create(signUpDto);
     const token = await this.createToken(user);
     return {
       access_token: token,
       profile: user.profile,
     };
-  }
-
-  private async createUser(signUpDto: SignUpDto) {
-    const createUserDto: CreateUserDto = signUpDto;
-    const user: User = await this.usersService.create(createUserDto);
-    return user;
   }
 
   private async createToken(user: User) {

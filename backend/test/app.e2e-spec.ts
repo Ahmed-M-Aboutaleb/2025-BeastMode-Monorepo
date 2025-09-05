@@ -17,9 +17,7 @@ describe('AppController (e2e)', () => {
   });
 
   it('/ (GET)', () => {
-    return request(app.getHttpServer() as App)
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
+    const my_app: App = app.getHttpServer() as App;
+    return request(my_app).get('/').expect(200).expect('Hello World!');
   });
 });
