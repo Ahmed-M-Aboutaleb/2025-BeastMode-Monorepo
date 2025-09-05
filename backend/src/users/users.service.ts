@@ -63,8 +63,12 @@ export class UsersService {
     };
   }
 
-  async findOne(filters?: IUsersFilters): Promise<IUser> {
-    const user = await this.userModel.findOne(filters).exec();
+  async findOne(filters?: IUsersFilters, select?: string): Promise<IUser> {
+    const query = this.userModel.findOne(filters ?? {});
+    if (select) {
+      query.select(select);
+    }
+    const user = await query.lean<IUser>().exec();
     if (!user) {
       throw new NotFoundException('User not found');
     }
