@@ -17,7 +17,7 @@ export class User implements IUser {
   @Prop({ required: false, type: Boolean, default: true })
   isActive: boolean;
   @Prop({ required: false, type: [String], default: [Roles.USER] })
-  roles: string[];
+  roles: Roles[];
   @Prop({ required: true, type: Object })
   profile: IProfile;
 }
