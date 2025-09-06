@@ -9,5 +9,52 @@
     "register": "تسجيل",
     "logout": "تسجيل خروج",
     "profile": "الملف الشخصي"
+  },
+    "AUTH_FORM": {
+    "welcome_back": "أهلاً بعودتك",
+    "create_account": "أنشئ حسابك",
+    "login_prompt": "الرجاء إدخال عنوان بريدك الإلكتروني وكلمة المرور",
+    "no_account_yet": "ليس لديك حساب؟",
+    "sign_up": "سجل الآن",
+    "have_account": "لديك حساب بالفعل؟",
+    "login": "تسجيل الدخول"
+  },
+    "LOGIN_FORM": {
+    "failed_load_country_codes": "فشل في تحميل رموز الدول",
+    "phone_required": "رقم الهاتف مطلوب",
+    "phone_digits_only": "يجب أن يحتوي رقم الهاتف على أرقام فقط",
+    "phone_max_digits": "الحد الأقصى {count} أرقام",
+    "password_required": "كلمة المرور مطلوبة",
+    "phone_placeholder": "رقم الهاتف",
+    "password_placeholder": "كلمة المرور",
+    "remember_me": "تذكرني",
+    "forgot_password": "نسيت كلمة المرور؟",
+    "logging_in": "جاري تسجيل الدخول...",
+    "log_in": "تسجيل الدخول",
+    "login_successful": "تم تسجيل الدخول بنجاح!",
+    "login_failed": "فشل تسجيل الدخول"
+  },
+  "REGISTER_FORM": {
+    "failed_load_country_codes": "فشل في تحميل رموز الدول",
+    "full_name_required": "الاسم الكامل مطلوب",
+    "email_invalid": "صيغة البريد الإلكتروني غير صالحة",
+    "email_required": "البريد الإلكتروني مطلوب",
+    "phone_code_required": "رمز الهاتف مطلوب",
+    "phone_required": "رقم الهاتف مطلوب",
+    "phone_digits_only": "يجب أن يحتوي رقم الهاتف على أرقام فقط",
+    "phone_max_digits": "الحد الأقصى {count} أرقام",
+    "password_min_chars": "يجب أن تتكون كلمة المرور من 6 أحرف على الأقل",
+    "password_required": "كلمة المرور مطلوبة",
+    "password_match": "كلمتا المرور يجب أن تتطابقا",
+    "password_confirmation_required": "تأكيد كلمة المرور مطلوب",
+    "full_name_placeholder": "الاسم الكامل",
+    "email_placeholder": "البريد الإلكتروني",
+    "phone_placeholder": "رقم الهاتف",
+    "password_placeholder": "كلمة المرور",
+    "confirm_password_placeholder": "تأكيد كلمة المرور",
+    "registering": "جاري التسجيل...",
+    "register": "تسجيل",
+    "registration_successful": "تم التسجيل بنجاح!",
+    "registration_failed": "فشل التسجيل"
   }
 }

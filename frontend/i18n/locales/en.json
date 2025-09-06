@@ -9,6 +9,52 @@
     "register": "Register",
     "logout": "Logout",
     "profile": "Profile"
+  }, 
+   "AUTH_FORM": {
+    "welcome_back": "Welcome back",
+    "create_account": "Create your account",
+    "login_prompt": "Please enter your valid e-mail address and your password",
+    "no_account_yet": "Don't have an account?",
+    "sign_up": "Sign up",
+    "have_account": "Have an account?",
+    "login": "Login"
+  },
+ "LOGIN_FORM": {
+    "failed_load_country_codes": "Failed to load country codes",
+    "phone_required": "Phone is required",
+    "phone_digits_only": "Phone must be digits only",
+    "phone_max_digits": "Max {count} digits",
+    "password_required": "Password is required",
+    "phone_placeholder": "Phone",
+    "password_placeholder": "Password",
+    "remember_me": "Remember me",
+    "forgot_password": "Forgot password?",
+    "logging_in": "Logging in...",
+    "log_in": "Log in",
+    "login_successful": "Login successful!",
+    "login_failed": "Login failed"
+  },
+  "REGISTER_FORM": {
+    "failed_load_country_codes": "Failed to load country codes",
+    "full_name_required": "Full name is required",
+    "email_invalid": "Invalid email format",
+    "email_required": "Email is required",
+    "phone_code_required": "Phone code is required",
+    "phone_required": "Phone is required",
+    "phone_digits_only": "Phone must be digits only",
+    "phone_max_digits": "Max {count} digits",
+    "password_min_chars": "Password must be at least 6 characters",
+    "password_required": "Password is required",
+    "password_match": "Passwords must match",
+    "password_confirmation_required": "Password confirmation is required",
+    "full_name_placeholder": "Full Name",
+    "email_placeholder": "Email",
+    "phone_placeholder": "Phone",
+    "password_placeholder": "Password",
+    "confirm_password_placeholder": "Confirm Password",
+    "registering": "Registering...",
+    "register": "Register",
+    "registration_successful": "Registration successful!",
+    "registration_failed": "Registration failed"
   }
-
 }
