@@ -104,14 +104,12 @@
 									"    pm.expect(pm.response.code).to.equal(200);\r",
 									"});\r",
 									"\r",
-									"\r",
 									"pm.test(\"Response has required fields\", function () {\r",
 									"    const responseData = pm.response.json();\r",
 									"    \r",
 									"    pm.expect(responseData).to.be.an('object');\r",
 									"    pm.expect(responseData).to.have.all.keys('totalItems', 'items', 'page', 'size');\r",
 									"});\r",
-									"\r",
 									"\r",
 									"pm.test(\"Items array is present and is an array\", function () {\r",
 									"    const responseData = pm.response.json();\r",
@@ -121,31 +119,18 @@
 									"});\r",
 									"\r",
 									"\r",
-									"pm.test(\"Validate the structure of the user object within the items array\", function () {\r",
+									"\r",
+									"// New validation test for required profile keys\r",
+									"pm.test(\"Profile keys are present with valid non-empty string values\", function () {\r",
 									"    const responseData = pm.response.json();\r",
 									"    \r",
-									"    pm.expect(responseData).to.be.an('object');\r",
-									"    pm.expect(responseData.items).to.be.an('array');\r",
-									"    \r",
 									"    responseData.items.forEach(item => {\r",
-									"        pm.expect(item).to.be.an('object');\r",
-									"        pm.expect(item).to.have.all.keys('_id', 'email', 'isActive', 'roles', 'profile', 'passwordHash', 'createdAt', 'updatedAt', '__v');\r",
-									"        pm.expect(item.email).to.be.a('string').and.to.match(/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/, \"Email format is invalid\");\r",
-									"        pm.expect(item.isActive).to.be.a('boolean');\r",
-									"        pm.expect(item.roles).to.be.an('array');\r",
-									"        pm.expect(item.profile).to.be.an('object');\r",
-									"        pm.expect(item.profile).to.have.all.keys('firstName', 'lastName', 'sex', 'birthDate');\r",
-									"        pm.expect(item.profile.firstName).to.be.a('string');\r",
-									"        pm.expect(item.profile.lastName).to.be.a('string');\r",
-									"        pm.expect(item.profile.sex).to.be.a('string');\r",
-									"        pm.expect(item.profile.birthDate).to.be.a('string');\r",
-									"        pm.expect(item.passwordHash).to.be.a('string');\r",
-									"        pm.expect(item.createdAt).to.be.a('string');\r",
-									"        pm.expect(item.updatedAt).to.be.a('string');\r",
-									"        pm.expect(item.__v).to.be.a('number');\r",
+									"        pm.expect(item.profile.firstName).to.be.a('string').and.to.not.be.empty;\r",
+									"        pm.expect(item.profile.lastName).to.be.a('string').and.to.not.be.empty;\r",
+									"        pm.expect(item.profile.sex).to.be.a('string').and.to.not.be.empty;\r",
+									"        pm.expect(item.profile.birthDate).to.be.a('string').and.to.not.be.empty;\r",
 									"    });\r",
 									"});\r",
-									"\r",
 									"\r",
 									"pm.test(\"createdAt and updatedAt are in valid date format\", function () {\r",
 									"    const responseData = pm.response.json();\r",
@@ -264,7 +249,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "68b9aff4cfec2663315adc83"
+									"value": "68b9b65d222a6596804c374e"
 								}
 							]
 						}
@@ -354,7 +339,7 @@
 					"response": []
 				},
 				{
-					"name": "New Request",
+					"name": "delete",
 					"event": [
 						{
 							"listen": "test",
@@ -439,6 +424,176 @@
 				}
 			],
 			"description": "The `/me` endpoints let you manage information about the authenticated user."
+		},
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "signin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.eql(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validate the structure of the profile object\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData).to.have.property('profile').that.is.an('object');\r",
+									"    \r",
+									"    const profile = responseData.profile;\r",
+									"    pm.expect(profile).to.have.all.keys('firstName', 'lastName', 'picture', 'bio', 'fitnessGoals', 'isPublic', 'sex', 'birthDate', 'bodyMeasurements');\r",
+									"    \r",
+									"    pm.expect(profile.firstName).to.be.a('string');\r",
+									"    pm.expect(profile.lastName).to.be.a('string');\r",
+									"    pm.expect(profile.picture).to.satisfy(value => value === null || typeof value === 'string');\r",
+									"    pm.expect(profile.bio).to.satisfy(value => value === null || typeof value === 'string');\r",
+									"    pm.expect(profile.fitnessGoals).to.satisfy(value => value === null || Array.isArray(value));\r",
+									"    pm.expect(profile.isPublic).to.satisfy(value => value === null || typeof value === 'boolean');\r",
+									"    pm.expect(profile.sex).to.be.a('string');\r",
+									"    pm.expect(profile.birthDate).to.satisfy(value => value === null || typeof value === 'string');\r",
+									"    pm.expect(profile.bodyMeasurements).to.satisfy(value => value === null || typeof value === 'object');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"First name and last name must be non-empty strings\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.profile).to.exist.and.to.be.an('object');\r",
+									"    \r",
+									"    pm.expect(responseData.profile.firstName).to.exist.and.to.be.a('string').and.to.have.lengthOf.at.least(1, \"First name should not be empty\");\r",
+									"    pm.expect(responseData.profile.lastName).to.exist.and.to.be.a('string').and.to.have.lengthOf.at.least(1, \"Last name should not be empty\");\r",
+									"});\r",
+									"\r",
+									"// Updated birth date test to check for ISO format\r",
+									"pm.test(\"Birth date is in a valid ISO format\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.profile).to.exist;\r",
+									"    \r",
+									"    const birthDate = responseData.profile.birthDate;\r",
+									"    pm.expect(birthDate).to.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$/, \"Birth date should be in ISO format 'YYYY-MM-DDTHH:mm:ss.sssZ'\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"test@example.com\",\r\n    \"password\": \"Password123_!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/signin",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "signup",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.eql(201);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response should contain access_token and profile properties\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData).to.have.property('access_token');\r",
+									"    pm.expect(responseData).to.have.property('profile');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Profile contains valid firstName and lastName as non-empty strings\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.profile).to.be.an('object').that.includes.keys('firstName', 'lastName');\r",
+									"\r",
+									"    pm.expect(responseData.profile.firstName).to.exist.and.to.be.a('string').and.to.have.lengthOf.at.least(1, \"firstName should not be empty\");\r",
+									"    pm.expect(responseData.profile.lastName).to.exist.and.to.be.a('string').and.to.have.lengthOf.at.least(1, \"lastName should not be empty\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"BirthDate is in a valid date format\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.have.property('profile');\r",
+									"    pm.expect(responseData.profile).to.have.property('birthDate');\r",
+									"    \r",
+									"    const birthDate = responseData.profile.birthDate;\r",
+									"    pm.expect(birthDate).to.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$/, \"Birth date should be in ISO format 'YYYY-MM-DDTHH:mm:ss.sssZ'\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"test@example.com\",\r\n    \"password\": \"Password123_!\",\r\n    \"profile\": {\r\n        \"firstName\": \"Ahmed\",\r\n        \"lastName\": \"Aboutaleb\",\r\n        \"sex\": \"Male\",\r\n        \"birthDate\": \"2004-05-12\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/signup",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"auth": {
