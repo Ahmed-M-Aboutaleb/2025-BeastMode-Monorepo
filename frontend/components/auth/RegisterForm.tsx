@@ -97,11 +97,11 @@ export default function RegisterForm() {
   );
 
   return (
-  <form onSubmit={formik.handleSubmit}>
+  <form onSubmit={formik.handleSubmit} className="lg:space-y-5 space-y-3">
           {/* <CardContent className="space-y-4"> */}
             <div className="space-y-2">
               <Label htmlFor="name">Full Name</Label>
-              <div className="relative">
+              <div className="relative mt-1">
                 <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 <Input
                   id="full_name"
@@ -116,7 +116,7 @@ export default function RegisterForm() {
 
             <div className="space-y-2">
               <Label htmlFor="register-email">Email</Label>
-              <div className="relative">
+              <div className="relative mt-1">
                 <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 <Input
                   id="register-email"
@@ -131,7 +131,7 @@ export default function RegisterForm() {
             
             <div className="space-y-2">
               <Label htmlFor="register-password">Password</Label>
-              <div className="relative">
+              <div className="relative mt-1">
                 <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 <Input
                   id="register-password"
@@ -159,7 +159,7 @@ export default function RegisterForm() {
 
             <div className="space-y-2">
               <Label htmlFor="confirm-password">Confirm Password</Label>
-              <div className="relative">
+              <div className="relative mt-1">
                 <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 <Input
                   id="password_confirmation"

@@ -82,11 +82,10 @@ export default function LoginForm() {
   });
 
   return (
-    <form onSubmit={formik.handleSubmit}>
-      {/* <CardContent className="space-y-6"> */}
-        <div className="space-y-2">
+    <form onSubmit={formik.handleSubmit} className="space-y-6">
+        <div className="space-y-2 gap-4">
           <Label htmlFor="email">Email</Label>
-          <div className="relative">
+          <div className="relative mt-2">
             <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
             <Input
               id="email"
@@ -103,7 +102,7 @@ export default function LoginForm() {
 
         <div className="space-y-2">
           <Label htmlFor="password">Password</Label>
-          <div className="relative">
+          <div className="relative mt-2">
             <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
             <Input
               id="password"
@@ -147,28 +146,6 @@ export default function LoginForm() {
             Forgot password?
           </Button>
         </div>
-      {/* </CardContent> */}
-{/* 
-      <CardFooter className="flex flex-col space-y-4">
-        <Button
-          type="submit"
-          className="w-full bg-gradient-to-r from-gym-orange to-gym-orange-glow hover:from-gym-orange-glow hover:to-gym-orange text-gym-dark font-bold py-6 glow-orange transition-all duration-300"
-        >
-          Sign In
-        </Button>
-
-        <p className="text-center text-muted-foreground">
-          Don&apos;t have an account?{" "}
-          <Button
-            type="button"
-            variant="link"
-            className="p-0 h-auto text-gym-orange hover:text-gym-orange-glow font-semibold"
-            onClick={onSwitchToRegister}
-          >
-            Sign up now
-          </Button>
-        </p>
-      </CardFooter> */}
     </form>
   );
 }

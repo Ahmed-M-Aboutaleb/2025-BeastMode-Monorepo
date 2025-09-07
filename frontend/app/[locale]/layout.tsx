@@ -14,7 +14,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title:  "Beast Mode",
     description: "workout tracking app",
     icons: {
-      icon:  "/assets/icons/dunbblle.png",
+      icon:  "/assets/icons/dumbbell.png",
     },
   };
 }

@@ -172,3 +172,37 @@
   0% { opacity: 1; transform: translateX(0); }
   100% { opacity: 0; transform: translateX(100px); }
 }
+
+@keyframes neon-flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    opacity: 1;
+    text-shadow:
+      0 0 5px #ff7300,
+      0 0 10px #ff7300,
+      0 0 20px #ff7300,
+      0 0 40px #ff4d00,
+      0 0 80px #ff4d00;
+  }
+  20%, 24%, 55% {
+    opacity: 0.6;
+    text-shadow: none;
+  }
+}
+
+.animate-neon-flicker {
+  animation: neon-flicker 2.5s infinite alternate;
+}
+
+/* @layer utilities {
+  @keyframes neon-flicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+      opacity: 1;
+    }
+    20%, 24%, 55% {
+      opacity: 0.8;
+    }
+  }
+  .animate-neon-flicker {
+    animation: neon-flicker 3s infinite;
+  }
+} */
