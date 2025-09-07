@@ -11,6 +11,8 @@ import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { Eye, EyeOff, Lock, Mail, User } from "lucide-react";
 import { Input } from "../ui/input";
+import { RegisterPayload } from "@/types/auth.types";
+import { authService } from "@/services/ClientApiHandler";
 
 // Services & Stores
 // import { authService } from "@/services/ClientApiHandler";
@@ -19,9 +21,9 @@ import { Input } from "../ui/input";
 export default function RegisterForm() {
   const t = useTranslations("REGISTER_FORM");
   const router = useRouter();
-
+  const [agreeToTerms, setAgreeToTerms] = useState(false);
   const [loading, setLoading] = useState(false);
- const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const validationSchema = Yup.object({
     full_name: Yup.string().required(t("full_name_required")),
@@ -51,13 +53,14 @@ export default function RegisterForm() {
       setLoading(true);
       toast.dismiss();
 
-      // const payload: RegisterPayload = {
-      //   ...values,
-      //   device_type: "web",
-      // };
-
+      const payload: RegisterPayload = {
+        ...values,
+        device_type: "web",
+      };
+console.log('register values> ',values)
       try {
-        // await authService.register(payload);
+        const res = await authService.register(payload);
+        console.log("🚀 ~ RegisterForm ~ res:", res);
 
         // toast.success(t("registration_successful"));
         // router.push("/auth/verify");
@@ -97,134 +100,126 @@ export default function RegisterForm() {
   );
 
   return (
-  <form onSubmit={formik.handleSubmit} className="lg:space-y-5 space-y-3">
-          {/* <CardContent className="space-y-4"> */}
-            <div className="space-y-2">
-              <Label htmlFor="name">Full Name</Label>
-              <div className="relative mt-1">
-                <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                <Input
-                  id="full_name"
-                  type="text"
-                  placeholder="Enter your full name"
-                {...formik.getFieldProps('full_name')}
-                  className="pl-10 bg-input border-gym-border focus:ring-gym-orange focus:border-gym-orange"
-                  required
-                />
-              </div>
-            </div>
+    <form onSubmit={formik.handleSubmit} className="lg:space-y-5 space-y-3">
+      {/* <CardContent className="space-y-4"> */}
+      <div className="space-y-2">
+        <Label htmlFor="name">Full Name</Label>
+        <div className="relative mt-1">
+          <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+          <Input
+            id="full_name"
+            type="text"
+            placeholder="Enter your full name"
+            {...formik.getFieldProps("full_name")}
+            className="pl-10 bg-input border-gym-border focus:ring-gym-orange focus:border-gym-orange"
+            required
+          />
+        </div>
+      </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="register-email">Email</Label>
-              <div className="relative mt-1">
-                <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                <Input
-                  id="register-email"
-                  type="email"
-                  placeholder="Enter your email"
-                 {...formik.getFieldProps('email')}
-                  className="pl-10 bg-input border-gym-border focus:ring-gym-orange focus:border-gym-orange"
-                  required
-                />
-              </div>
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="register-password">Password</Label>
-              <div className="relative mt-1">
-                <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                <Input
-                  id="register-password"
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder="Create a password"
-                  {...formik.getFieldProps('password')}
-                className="pl-10 pr-10 bg-input border-gym-border focus:ring-gym-orange focus:border-gym-orange"
-                  required
-                />
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? (
-                    <EyeOff className="h-4 w-4 text-muted-foreground" />
-                  ) : (
-                    <Eye className="h-4 w-4 text-muted-foreground" />
-                  )}
-                </Button>
-              </div>
-            </div>
+      <div className="space-y-2">
+        <Label htmlFor="register-email">Email</Label>
+        <div className="relative mt-1">
+          <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+          <Input
+            id="register-email"
+            type="email"
+            placeholder="Enter your email"
+            {...formik.getFieldProps("email")}
+            className="pl-10 bg-input border-gym-border focus:ring-gym-orange focus:border-gym-orange"
+            required
+          />
+        </div>
+      </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="confirm-password">Confirm Password</Label>
-              <div className="relative mt-1">
-                <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                <Input
-                  id="password_confirmation"
-                  type={showConfirmPassword ? 'text' : 'password'}
-                  placeholder="Confirm your password"
-                  {...formik.getFieldProps('password_confirmation')}
-                  className="pl-10 pr-10 bg-input border-gym-border focus:ring-gym-orange focus:border-gym-orange"
-                  required
-                />
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                >
-                  {showConfirmPassword ? (
-                    <EyeOff className="h-4 w-4 text-muted-foreground" />
-                  ) : (
-                    <Eye className="h-4 w-4 text-muted-foreground" />
-                  )}
-                </Button>
-              </div>
-            </div>
+      <div className="space-y-2">
+        <Label htmlFor="register-password">Password</Label>
+        <div className="relative mt-1">
+          <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+          <Input
+            id="register-password"
+            type={showPassword ? "text" : "password"}
+            placeholder="Create a password"
+            {...formik.getFieldProps("password")}
+            className="pl-10 pr-10 bg-input border-gym-border focus:ring-gym-orange focus:border-gym-orange"
+            required
+          />
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? (
+              <EyeOff className="h-4 w-4 text-muted-foreground" />
+            ) : (
+              <Eye className="h-4 w-4 text-muted-foreground" />
+            )}
+          </Button>
+        </div>
+      </div>
 
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="terms"
-                  {...formik.getFieldProps('terms')}
-                className="border-gym-border data-[state=checked]:bg-gym-orange data-[state=checked]:border-gym-orange"
-              />
-              <Label htmlFor="terms" className="text-sm text-muted-foreground">
-                I agree to the{' '}
-                <Button variant="link" className="p-0 h-auto text-gym-orange hover:text-gym-orange-glow">
-                  Terms of Service
-                </Button>
-                {' '}and{' '}
-                <Button variant="link" className="p-0 h-auto text-gym-orange hover:text-gym-orange-glow">
-                  Privacy Policy
-                </Button>
-              </Label>
-            </div>
-          {/* </CardContent> */}
+      <div className="space-y-2">
+        <Label htmlFor="confirm-password">Confirm Password</Label>
+        <div className="relative mt-1">
+          <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+          <Input
+            id="password_confirmation"
+            type={showConfirmPassword ? "text" : "password"}
+            placeholder="Confirm your password"
+            {...formik.getFieldProps("password_confirmation")}
+            className="pl-10 pr-10 bg-input border-gym-border focus:ring-gym-orange focus:border-gym-orange"
+            required
+          />
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
+            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+          >
+            {showConfirmPassword ? (
+              <EyeOff className="h-4 w-4 text-muted-foreground" />
+            ) : (
+              <Eye className="h-4 w-4 text-muted-foreground" />
+            )}
+          </Button>
+        </div>
+      </div>
 
-          {/* <CardFooter className="flex flex-col space-y-4">
-            <Button
-              type="submit"
-              disabled={!agreeToTerms}
-              className="w-full bg-gradient-to-r from-gym-orange to-gym-orange-glow hover:from-gym-orange-glow hover:to-gym-orange text-gym-dark font-bold py-6 glow-orange transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              Create Account
-            </Button>
-            
-            <p className="text-center text-muted-foreground">
-              Already have an account?{' '}
-              <Button
-                type="button"
-                variant="link"
-                className="p-0 h-auto text-gym-orange hover:text-gym-orange-glow font-semibold"
-                onClick={onSwitchToLogin}
-              >
-                Sign in
-              </Button>
-            </p>
-          </CardFooter> */}
-        </form>
+      <div className="flex items-center space-x-2">
+        <Checkbox
+          id="terms"
+  // checked={agreeToTerms}
+  onCheckedChange={(checked) => setAgreeToTerms(!!checked)}          {...formik.getFieldProps("terms")}
+          className="border-gym-border data-[state=checked]:bg-gym-orange data-[state=checked]:border-gym-orange"
+        />
+        <Label htmlFor="terms" className="text-sm text-muted-foreground">
+          I agree to the{" "}
+          <Button
+            variant="link"
+            className="p-0 h-auto text-gym-orange hover:text-gym-orange-glow"
+          >
+            Terms of Service
+          </Button>{" "}
+          and{" "}
+          <Button
+            variant="link"
+            className="p-0 h-auto text-gym-orange hover:text-gym-orange-glow"
+          >
+            Privacy Policy
+          </Button>
+        </Label>
+      </div>
+      {/* </CardContent> */}
+      <Button
+        type="submit"
+        disabled={!agreeToTerms}
+        className="w-full bg-gradient-to-r from-gym-orange to-gym-orange-glow hover:from-gym-orange-glow hover:to-gym-orange text-gym-dark font-bold py-6 glow-orange transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        Create Account
+      </Button>
+    </form>
   );
 }

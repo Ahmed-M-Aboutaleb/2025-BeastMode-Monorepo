@@ -206,3 +206,11 @@
     animation: neon-flicker 3s infinite;
   }
 } */
+ /* .input:-internal-autofill-selected {
+  background: var(--color-input);
+ } */
+ input:-webkit-autofill {
+  box-shadow: 0 0 0px 1000px var(--color-input) inset !important;
+  -webkit-text-fill-color: white !important; /* لون النص */
+  transition: background-color 9999s ease-in-out 0s;
+}
