@@ -1,5 +1,5 @@
 import { Types } from 'mongoose';
-import { Roles } from 'src/utils/decorators/role';
+import { Roles } from 'src/utils/decorators/roles';
 
 export interface TokenPayload {
   email: string;
