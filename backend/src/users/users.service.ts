@@ -47,7 +47,7 @@ export class UsersService {
     { size, offset }: IPagination,
     sort?: Sorting,
     filter?: Filtering,
-  ): Promise<PaginatedResource<Partial<IUserWithoutHash | IUser>>> {
+  ): Promise<PaginatedResource<Partial<IUserWithoutHash>>> {
     const order = getOrder(sort);
     const where = getWhere(filter);
     const users = await this.userModel
