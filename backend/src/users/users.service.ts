@@ -72,7 +72,7 @@ export class UsersService {
     if (select) {
       query.select(select);
     }
-    const user = await query.lean<IUserWithoutHash>().exec();
+    const user = await query.lean().exec();
     if (!user) {
       throw new NotFoundException('User not found');
     }
