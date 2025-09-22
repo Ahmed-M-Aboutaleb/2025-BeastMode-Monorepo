@@ -11,7 +11,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { User } from './entities/user.entity';
 import { Model, Types } from 'mongoose';
 import { MongoServerError } from 'mongodb';
-import IUser from './interfaces/IUser';
+import type { IUserWithoutHash } from './interfaces/IUser';
 import {
   IPagination,
   PaginatedResource,
@@ -21,11 +21,12 @@ import { Filtering } from 'src/utils/decorators/filteringParms/interfaces/filter
 import { IUsersFilters } from './interfaces/usersFilter.interface';
 import { getOrder } from 'src/utils/getOrder';
 import { getWhere } from 'src/utils/getWhere';
+import type IUser from './interfaces/IUser';
 
 @Injectable()
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
-  async create(createUserDto: CreateUserDto): Promise<User> {
+  async create(createUserDto: CreateUserDto): Promise<IUserWithoutHash> {
     const doc = await this.buildCreateUserDoc(createUserDto);
     try {
       const created = await this.userModel.create(doc);
@@ -34,7 +35,7 @@ export class UsersService {
         .select({ passwordHash: 0 })
         .lean()
         .exec();
-      return user as User;
+      return user as IUserWithoutHash;
     } catch (err) {
       if (this.isDuplicateEmailError(err)) {
         throw new ConflictException('Email already in use');
@@ -46,7 +47,7 @@ export class UsersService {
     { size, offset }: IPagination,
     sort?: Sorting,
     filter?: Filtering,
-  ): Promise<PaginatedResource<Partial<IUser>>> {
+  ): Promise<PaginatedResource<Partial<IUserWithoutHash | IUser>>> {
     const order = getOrder(sort);
     const where = getWhere(filter);
     const users = await this.userModel
@@ -63,12 +64,15 @@ export class UsersService {
     };
   }
 
-  async findOne(filters?: IUsersFilters, select?: string): Promise<IUser> {
+  async findOne(
+    filters?: IUsersFilters,
+    select?: string,
+  ): Promise<IUserWithoutHash | IUser> {
     const query = this.userModel.findOne(filters ?? {});
     if (select) {
       query.select(select);
     }
-    const user = await query.lean<IUser>().exec();
+    const user = await query.lean<IUserWithoutHash>().exec();
     if (!user) {
       throw new NotFoundException('User not found');
     }
@@ -78,7 +82,7 @@ export class UsersService {
   async update(
     id: Types.ObjectId,
     updateUserDto: UpdateUserDto,
-  ): Promise<IUser> {
+  ): Promise<IUserWithoutHash> {
     updateUserDto.email = await this.findOne({ _id: id }).then((u) => u.email);
     const user = await this.userModel
       .findByIdAndUpdate(id, updateUserDto, { new: true })
@@ -89,7 +93,7 @@ export class UsersService {
     return user;
   }
 
-  async delete(id: Types.ObjectId): Promise<IUser> {
+  async delete(id: Types.ObjectId): Promise<IUserWithoutHash> {
     const user = await this.userModel.findByIdAndDelete(id).exec();
     if (!user) {
       throw new NotFoundException(`User with id ${id.toString()} not found`);

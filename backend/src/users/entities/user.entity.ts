@@ -3,7 +3,7 @@ import type { HydratedDocument, Types } from 'mongoose';
 import type IProfile from '../interfaces/IProfile';
 import type IUser from '../interfaces/IUser';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Roles } from '../../utils/decorators/role';
+import { Roles } from '../../utils/decorators/roles';
 
 @Schema({ collection: 'users', timestamps: true })
 export class User implements IUser {

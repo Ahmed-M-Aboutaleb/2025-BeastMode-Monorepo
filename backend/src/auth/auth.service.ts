@@ -2,11 +2,10 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/users/users.service';
 import { SignInDto } from './dto/sign-in.dto';
-import IUser from 'src/users/interfaces/IUser';
+import IUser, { IUserWithoutHash } from 'src/users/interfaces/IUser';
 import { SignUpDto } from './dto/sign-up.dto';
 import { TokenPayload } from './interfaces/token-payload.interface';
 import * as argon from 'argon2';
-import { User } from 'src/users/entities/user.entity';
 import { IAuthResponse } from './interfaces/auth-response.interface';
 
 @Injectable()
@@ -16,12 +15,12 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
   async signIn(signInDto: SignInDto): Promise<IAuthResponse> {
-    const user: IUser = await this.usersService.findOne(
+    const user: IUser = (await this.usersService.findOne(
       {
         email: signInDto.email,
       },
       '+passwordHash',
-    );
+    )) as IUser;
     const isPasswordValid = await this.verifyPassword(
       signInDto.password,
       user.passwordHash,
@@ -38,7 +37,7 @@ export class AuthService {
   }
 
   async signUp(signUpDto: SignUpDto): Promise<IAuthResponse> {
-    const user: User = await this.usersService.create(signUpDto);
+    const user: IUserWithoutHash = await this.usersService.create(signUpDto);
     const token = await this.createToken(user);
     return {
       access_token: token,
@@ -46,7 +45,7 @@ export class AuthService {
     };
   }
 
-  private async createToken(user: User) {
+  private async createToken(user: IUserWithoutHash): Promise<string> {
     const payload: TokenPayload = {
       email: user.email,
       userId: user._id,
